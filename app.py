@@ -30,7 +30,20 @@ totalDistance = round(dfDistance.sum(), 2)
 
 left_column, middle_column, right_column = st.columns(3)
 
+fig = px.pie(
+    df_selection,
+    values=df_selection["Type"].value_counts().values,
+    names=df_selection["Type"].value_counts().index,
+    title='Workout Distribution',
+    template="plotly_white"
+    )
+st.plotly_chart(fig)
+
 with left_column:
     st.subheader("Total Distance:")
     st.subheader(f"{totalDistance:.2f} km")
+
+with middle_column:
+    st.subheader("Overview :)")
+    
 

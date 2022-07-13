@@ -30,13 +30,23 @@ totalDistance = round(dfDistance.sum(), 2)
 
 left_column, middle_column, right_column = st.columns(3)
 
+# creates other category
+
+pie_values = df["Type"].value_counts().values
+pie_index = df["Type"].value_counts().index
+category_values = pie_values[pie_values > 10]
+category_index = pie_index[:len(category_values)]
+other_values = pie_values[pie_values <= 10]
+
 fig = px.pie(
     df_selection,
-    values=df_selection["Type"].value_counts().values,
-    names=df_selection["Type"].value_counts().index,
+    values=np.append(category_values, np.sum(other_values)),
+    names=np.append(category_index.values, "Other"),
     title='Workout Distribution',
     template="plotly_white"
     )
+fig.update_traces(textposition='outside', textinfo='label')
+fig.update(layout_showlegend=False)
 st.plotly_chart(fig)
 
 with left_column:
